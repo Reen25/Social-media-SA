@@ -1,8 +1,11 @@
 streamlit
-joblib
 pandas
-scikit-learn
+numpy
 matplotlib
 seaborn
 plotly
 nltk
+scikit-learn
+wordcloud
+tqdm
+colorama
