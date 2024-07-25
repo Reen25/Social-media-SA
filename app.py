@@ -13,18 +13,34 @@ def load_model(file_path):
 def main():
     st.title("Sentiment Analysis App")
 
-    model_path = "C:/Users/PC/Downloads/Sentiment model/sentiment_model.pkl"
-    vectorizer_path = "C:/Users/PC/Downloads/Sentiment model/vectorizer.pkl"
+    model_path = "C:/Users/PC/Downloads/Dataset/sentiment_model.pkl"
+    vectorizer_path = "C:/Users/PC/Downloads/Dataset/vectorizer.pkl"
 
     model = load_model(model_path)
     vectorizer = load_model(vectorizer_path)
 
     if model and vectorizer:
         user_input = st.text_area("Enter text for sentiment analysis")
+
         if st.button("Analyze"):
-            X_example = vectorizer.transform([user_input])
-            prediction = model.predict(X_example)
-            st.write("Prediction:", prediction)
+            if user_input:
+                X_example = vectorizer.transform([user_input])
+                prediction = model.predict(X_example)[0]
+
+                # Map the prediction to a readable label
+                sentiment_label = "Neutral"  # Default to neutral
+                if prediction == 1:
+                    sentiment_label = "Positive"
+                elif prediction == -1:
+                    sentiment_label = "Negative"
+                elif prediction == 0:  # Assuming 0 represents neutral in your model
+                    sentiment_label = "Neutral"
+
+                st.write("Prediction:", sentiment_label)
+            else:
+                st.error("Please enter some text to analyze.")
+    else:
+        st.error("Model or vectorizer not found. Please check the file paths.")
 
 if __name__ == "__main__":
     main()
